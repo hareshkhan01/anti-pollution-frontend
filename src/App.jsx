@@ -91,7 +91,7 @@ function App() {
             "Green corridors & parks",
             "Shorter exposure time"
           ]}
-          image="/feature_image_01.jpg"
+          image="https://placehold.co/600x40"
           imagePosition="right"
           zIndex={30}
         />
@@ -104,7 +104,7 @@ function App() {
             "Sensitivity-based tips",
             "Best times to travel"
           ]}
-          image="/feature_image_02.jpg"
+          image="https://placehold.co/600x400"
           imagePosition="left"
           zIndex={40}
         />
@@ -117,7 +117,7 @@ function App() {
             "Rest-stop suggestions",
             "Gentle audio cues"
           ]}
-          image="/feature_image_03.jpg"
+          image="https://placehold.co/600x400"
           imagePosition="right"
           zIndex={50}
         />

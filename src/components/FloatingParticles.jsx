@@ -1,14 +1,5 @@
 import { useEffect, useRef } from 'react'
 
-interface Particle {
-  x: number
-  y: number
-  size: number
-  speedX: number
-  speedY: number
-  opacity: number
-}
-
 export default function FloatingParticles() {
   const canvasRef = useRef(null)
   const particlesRef = useRef([])

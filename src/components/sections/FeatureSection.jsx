@@ -5,16 +5,6 @@ import { Check } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-interface FeatureSectionProps {
-  id: string
-  title: string
-  description: string
-  bullets: string[]
-  image: string
-  imagePosition: 'left' | 'right'
-  zIndex: number
-}
-
 export default function FeatureSection({
   id,
   title,
@@ -23,7 +13,7 @@ export default function FeatureSection({
   image,
   imagePosition,
   zIndex
-) {
+}) {
   const sectionRef = useRef(null)
   const cardRef = useRef(null)
   const imageRef = useRef(null)
