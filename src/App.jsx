@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// Home page imports
 import Navigation from './components/sections/Navigation'
 import HeroSection from './components/sections/HeroSection'
 import RoutePlannerSection from './components/sections/RoutePlannerSection'
@@ -8,11 +11,19 @@ import FeatureSection from './components/sections/FeatureSection'
 import FeaturesGridSection from './components/sections/FeaturesGridSection'
 import FooterSection from './components/sections/FooterSection'
 import FloatingParticles from "./components/FloatingParticles.jsx"
+
+// Map page imports
+import { useGeolocation } from './hooks/useGeolocation';
+import Header from './components/Header/Header';
+import MapView from './components/MapView/MapView';
+import { fetchRoutesData } from './api/routeApi';
+import mockPostData from './data/mockPostData.json';
+
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-function App() {
+function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const mainRef = useRef(null)
 
@@ -125,6 +136,77 @@ function App() {
         <FooterSection />
       </main>
     </div>
+  )
+}
+
+function MapPage() {
+  const { latitude, longitude, loading: locationLoading, error: locationError } = useGeolocation();
+
+  const [routes, setRoutes] = useState([]);
+  const [routesLoading, setRoutesLoading] = useState(true);
+  const [routesError, setRoutesError] = useState(null);
+
+  useEffect(() => {
+    const loadRoutes = async () => {
+      try {
+        setRoutesLoading(true);
+        // Using mockPostData for the POST request payload as requested
+        const data = await fetchRoutesData(mockPostData);
+        // Assuming API might return the array directly or inside a `routes` property or `data` property
+        const actualRoutes = Array.isArray(data) ? data : (data?.routes || data?.data || []);
+        console.log(actualRoutes);
+        setRoutes(actualRoutes);
+      } catch (err) {
+        setRoutesError(err.message);
+      } finally {
+        setRoutesLoading(false);
+      }
+    };
+
+    loadRoutes();
+  }, []);
+
+  if (locationError) {
+    return (
+      <div className="app-status">
+        <p>⚠️ Location error: {locationError}</p>
+      </div>
+    );
+  }
+
+  if (locationLoading || routesLoading) {
+    return (
+      <div className="app-status">
+        <p>📍 Loading map and routes…</p>
+      </div>
+    );
+  }
+
+  if (routesError) {
+    return (
+      <div className="app-status">
+        <p>⚠️ API Error: {routesError}</p>
+        <p>Make sure the API is running on localhost:3300</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Header />
+      <MapView latitude={latitude} longitude={longitude} routes={routes} />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/map" element={<MapPage />} />
+      </Routes>
+    </Router>
   )
 }
 
