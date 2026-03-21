@@ -32,7 +32,7 @@ export default function MapView({ latitude, longitude, routes }) {
 
       myMap.on('load', () => {
         if (!routes || routes.length === 0) return;
-
+        console.log("Maps: ", routes)
         // Draw all routes
         routes.forEach((route, index) => {
           myMap.addSource(route.routeId, {
