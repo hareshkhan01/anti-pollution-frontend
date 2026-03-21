@@ -5,6 +5,7 @@
     "": {
       "name": "anti-pollution-frontend",
       "dependencies": {
+        "olamaps-web-sdk": ">=1.2.0",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
       },
@@ -311,6 +312,8 @@
     "natural-compare": ["natural-compare@1.4.0", "", {}, "sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw=="],
 
     "node-releases": ["node-releases@2.0.36", "", {}, "sha512-TdC8FSgHz8Mwtw9g5L4gR/Sh9XhSP/0DEkQxfEFXOpiul5IiHgHan2VhYYb6agDSfp4KuvltmGApc8HMgUrIkA=="],
+
+    "olamaps-web-sdk": ["olamaps-web-sdk@1.4.0", "", {}, "sha512-fpwKWcNA4hiN3EriDZmVjk/AS5z7X+gGOXJgXqxL+u672DpjZVMpdtSRNPv9V2Ea88L7gu2h0ar17lGSIN3cPA=="],
 
     "optionator": ["optionator@0.9.4", "", { "dependencies": { "deep-is": "^0.1.3", "fast-levenshtein": "^2.0.6", "levn": "^0.4.1", "prelude-ls": "^1.2.1", "type-check": "^0.4.0", "word-wrap": "^1.2.5" } }, "sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g=="],
 
