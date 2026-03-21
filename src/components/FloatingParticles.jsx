@@ -13,7 +13,7 @@ export default function FloatingParticles() {
     if (!ctx) return
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
+      canvas.width = globalThis.innerWidth
       canvas.height = window.innerHeight
     }
 
