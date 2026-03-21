@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const olaMaps = new OlaMaps({
       apiKey: '90NQ4qVGTY4rF9fkXnyyqz432I3drMT9Ujqe09mN',
-    }, []);
+    });
 
     olaMaps.init({
       style: "https://api.olamaps.io/tiles/vector/v1/styles/default-light-standard/style.json",
