@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { MapPin, Flag, ArrowRight, Wind, TrendingUp, VolumeX } from 'lucide-react'
-import { fetchLatLongByAddr } from '../../api/getLatLong'
+import { MapPin, Flag, ArrowRight } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -37,10 +35,11 @@ export default function RoutePlannerSection() {
     const inputB = inputBRef.current
     const button = buttonRef.current
     const pills = pillsRef.current
+    const helper = helperRef.current
     const blob1 = blob1Ref.current
     const blob2 = blob2Ref.current
 
-    if (!section || !card || !title || !inputA || !inputB || !button) return
+    if (!section || !card || !title || !inputA || !inputB || !button || !helper) return
 
     const ctx = gsap.context(() => {
       const scrollTl = gsap.timeline({
@@ -53,7 +52,7 @@ export default function RoutePlannerSection() {
         }
       })
 
-      // ENTRANCE
+      // ENTRANCE (0-30%)
       scrollTl
         .fromTo(card, { y: '60vh', scale: 0.92, opacity: 0 }, { y: 0, scale: 1, opacity: 1, ease: 'none' }, 0)
         .fromTo(title, { x: '-8vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
@@ -80,8 +79,9 @@ export default function RoutePlannerSection() {
     return () => ctx.revert()
   }, [])
 
-  const handleFindRoute = async () => {
+  const handleFindRoute = () => {
     if (!startingPoint || !destination) return
+    
     setIsSearching(true)
 
     try {
@@ -110,8 +110,12 @@ export default function RoutePlannerSection() {
       console.error(err)
       alert("Error fetching location data. Please try again.")
     } finally {
+    
+    // Simulate route finding
+    setTimeout(() => {
       setIsSearching(false)
-    }
+      alert(`Finding the safest route from "${startingPoint}" to "${destination}"...\n\nThis would connect to air quality data and routing APIs in the full app!`)
+    }, 1500)
   }
 
   return (
@@ -122,108 +126,86 @@ export default function RoutePlannerSection() {
       style={{ backgroundColor: 'var(--breathe-bg-primary)' }}
     >
       {/* Decorative blobs */}
-      <div ref={blob1Ref} className="absolute -left-[10vw] -top-[10vh] w-[34vw] h-[34vw] blob breathe-gradient opacity-0" />
-      <div ref={blob2Ref} className="absolute -right-[10vw] -bottom-[12vh] w-[38vw] h-[38vw] blob breathe-gradient opacity-0" />
+      <div
+        ref={blob1Ref}
+        className="absolute -left-[10vw] -top-[10vh] w-[34vw] h-[34vw] blob breathe-gradient opacity-0"
+      />
+      <div
+        ref={blob2Ref}
+        className="absolute -right-[10vw] -bottom-[12vh] w-[38vw] h-[38vw] blob breathe-gradient opacity-0"
+      />
 
       {/* Planner Card */}
       <div
         ref={cardRef}
-        className="relative w-[min(90vw,680px)] breathe-card overflow-hidden"
-        style={{ padding: 0 }}
+        className="relative w-[min(86vw,720px)] breathe-card p-8 lg:p-12"
       >
-        {/* Card top accent bar */}
-        <div
-          className="w-full h-1.5 breathe-gradient"
-          style={{ borderRadius: '28px 28px 0 0' }}
-        />
+        <h2
+          ref={titleRef}
+          className="font-heading font-bold text-breathe-text-primary mb-8"
+          style={{ fontSize: 'clamp(22px, 2.5vw, 32px)' }}
+        >
+          Plan a low-pollution route
+        </h2>
 
-        <div className="px-8 pt-7 pb-8 lg:px-10 lg:pt-8 lg:pb-10">
-          {/* Header */}
-          <div ref={titleRef} className="mb-7">
-            <p className="text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: 'var(--breathe-accent)' }}>
-              Route Planner
-            </p>
-            <h2
-              className="font-heading font-bold text-breathe-text-primary leading-tight"
-              style={{ fontSize: 'clamp(20px, 2.4vw, 30px)' }}
-            >
-              Plan a low-pollution route
-            </h2>
+        {/* Input fields */}
+        <div className="space-y-4 mb-6">
+          {/* Starting point input */}
+          <div ref={inputARef} className="relative">
+            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-breathe-accent">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <input
+              type="text"
+              placeholder="Starting point"
+              value={startingPoint}
+              onChange={(e) => setStartingPoint(e.target.value)}
+              className="w-full h-14 pl-14 pr-5 breathe-input text-breathe-text-primary placeholder:text-breathe-text-secondary/60"
+            />
           </div>
 
-          {/* Input fields */}
-          <div className="space-y-3 mb-5">
-            <div ref={inputARef} className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2" style={{ color: 'var(--breathe-accent)' }}>
-                <MapPin className="w-4 h-4" />
-              </div>
-              <input
-                type="text"
-                placeholder="Starting point"
-                value={startingPoint}
-                onChange={(e) => setStartingPoint(e.target.value)}
-                className="w-full h-13 pl-12 pr-5 breathe-input text-breathe-text-primary placeholder:text-breathe-text-secondary/60 text-sm"
-                style={{ height: '52px' }}
-              />
+          {/* Destination input */}
+          <div ref={inputBRef} className="relative">
+            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-breathe-accent">
+              <Flag className="w-5 h-5" />
             </div>
-
-            {/* Connector dot */}
-            <div className="flex items-center gap-3 px-5">
-              <div className="w-px flex-1" style={{ background: 'var(--breathe-border)' }} />
-              <div className="w-2 h-2 rounded-full" style={{ background: 'var(--breathe-accent)', opacity: 0.5 }} />
-              <div className="w-px flex-1" style={{ background: 'var(--breathe-border)' }} />
-            </div>
-
-            <div ref={inputBRef} className="relative">
-              <div className="absolute left-5 top-1/2 -translate-y-1/2" style={{ color: '#5BA4CF' }}>
-                <Flag className="w-4 h-4" />
-              </div>
-              <input
-                type="text"
-                placeholder="Destination"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                className="w-full h-13 pl-12 pr-5 breathe-input text-breathe-text-primary placeholder:text-breathe-text-secondary/60 text-sm"
-                style={{ height: '52px' }}
-              />
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <button
-            ref={buttonRef}
-            onClick={handleFindRoute}
-            disabled={isSearching || !startingPoint || !destination}
-            className="w-full breathe-button flex items-center justify-center gap-2 text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none"
-            style={{ height: '52px' }}
-          >
-            {isSearching ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Finding route...</span>
-              </>
-            ) : (
-              <>
-                <span>Find the safest route</span>
-                <ArrowRight className="w-4 h-4" />
-              </>
-            )}
-          </button>
-
-          {/* Feature pills */}
-          <div ref={pillsRef} className="flex items-center justify-center gap-2 mt-5 flex-wrap">
-            {FEATURE_PILLS.map(({ icon: Icon, label, color, bg }) => (
-              <span
-                key={label}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
-                style={{ background: bg, color }}
-              >
-                <Icon className="w-3 h-3" />
-                {label}
-              </span>
-            ))}
+            <input
+              type="text"
+              placeholder="Destination"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              className="w-full h-14 pl-14 pr-5 breathe-input text-breathe-text-primary placeholder:text-breathe-text-secondary/60"
+            />
           </div>
         </div>
+
+        {/* CTA Button */}
+        <button
+          ref={buttonRef}
+          onClick={handleFindRoute}
+          disabled={isSearching || !startingPoint || !destination}
+          className="w-full h-14 breathe-button flex items-center justify-center gap-2 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
+        >
+          {isSearching ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <span>Finding route...</span>
+            </>
+          ) : (
+            <>
+              <span>Find the safest route</span>
+              <ArrowRight className="w-5 h-5" />
+            </>
+          )}
+        </button>
+
+        {/* Helper text */}
+        <p
+          ref={helperRef}
+          className="text-center text-sm text-breathe-text-secondary mt-6"
+        >
+          We'll show air quality, elevation, and quiet streets along the way.
+        </p>
       </div>
     </section>
   )

@@ -10,16 +10,25 @@ const features = [
     icon: Route,
     title: 'Low-pollution routing',
     description: 'Prioritizes cleaner air corridors and low-traffic streets.',
+    color: 'var(--breathe-accent)',
+    bg: 'rgba(240,136,62,0.1)',
+    border: 'rgba(240,136,62,0.25)',
   },
   {
     icon: Wind,
     title: 'Real-time air + pollen',
     description: 'Forecasts that match your personal sensitivity profile.',
+    color: 'var(--breathe-accent-blue)',
+    bg: 'rgba(88,166,255,0.1)',
+    border: 'rgba(88,166,255,0.25)',
   },
   {
     icon: Heart,
     title: 'Breathing-friendly guidance',
     description: 'Gentle directions with rest stops and steady pacing.',
+    color: 'var(--breathe-accent-green)',
+    bg: 'rgba(63,185,80,0.1)',
+    border: 'rgba(63,185,80,0.25)',
   },
 ]
 
@@ -96,41 +105,44 @@ export default function FeaturesGridSection() {
     <section
       ref={sectionRef}
       id="features-grid"
-      className="relative w-full py-20 lg:py-32 overflow-hidden z-[60]"
-      style={{ backgroundColor: 'var(--breathe-bg-secondary)' }}
+      className="relative w-full py-20 lg:py-28 overflow-hidden z-60"
+      style={{ backgroundColor: 'var(--breathe-bg-secondary)', borderTop: '1px solid var(--breathe-border)' }}
     >
-      <div className="max-w-[1100px] mx-auto px-6">
+      <div className="max-w-275 mx-auto px-6">
         {/* Section title */}
-        <h2
-          ref={titleRef}
-          className="font-heading font-bold text-breathe-text-primary text-center mb-12 lg:mb-16"
-          style={{ fontSize: 'clamp(28px, 3.5vw, 44px)' }}
-        >
-          Built for sensitive lungs
-        </h2>
+        <div className="text-center mb-12 lg:mb-16">
+          <span className="dash-badge dash-badge-orange mb-4 inline-flex">Built for sensitive lungs</span>
+          <h2
+            ref={titleRef}
+            className="font-heading font-bold text-breathe-text-primary"
+            style={{ fontSize: 'clamp(26px, 3vw, 40px)' }}
+          >
+            Everything you need to breathe easier
+          </h2>
+        </div>
 
         {/* Feature cards grid */}
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16 lg:mb-20"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5 mb-16 lg:mb-20"
         >
           {features.map((feature, index) => (
             <div
               key={index}
-              className="feature-card breathe-card p-8 hover:shadow-card-hover transition-all duration-500 hover:-translate-y-1.5 group"
+              className="feature-card breathe-card p-6 hover:-translate-y-1 transition-all duration-300 group"
             >
               {/* Icon */}
-              <div className="w-14 h-14 rounded-2xl breathe-gradient flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <feature.icon className="w-7 h-7 text-white" />
+              <div className="w-10 h-10 rounded flex items-center justify-center mb-5" style={{ background: feature.bg, border: `1px solid ${feature.border}` }}>
+                <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
               </div>
               
               {/* Title */}
-              <h3 className="font-heading font-semibold text-breathe-text-primary mb-3" style={{ fontSize: 'clamp(18px, 1.5vw, 22px)' }}>
+              <h3 className="font-heading font-semibold text-breathe-text-primary mb-2" style={{ fontSize: 'clamp(15px, 1.3vw, 18px)' }}>
                 {feature.title}
               </h3>
               
               {/* Description */}
-              <p className="text-breathe-text-secondary" style={{ fontSize: 'clamp(14px, 1.1vw, 16px)', lineHeight: 1.6 }}>
+              <p className="text-breathe-text-secondary" style={{ fontSize: 'clamp(13px, 1vw, 15px)', lineHeight: 1.6 }}>
                 {feature.description}
               </p>
             </div>
@@ -142,16 +154,19 @@ export default function FeaturesGridSection() {
           ref={ctaRef}
           className="text-center"
         >
-          <h3 
+          <h3
             className="font-heading font-bold text-breathe-text-primary mb-6"
-            style={{ fontSize: 'clamp(24px, 2.5vw, 32px)' }}
+            style={{ fontSize: 'clamp(22px, 2.2vw, 30px)' }}
           >
             Ready for calmer journeys?
           </h3>
           
-          <button className="breathe-button px-10 py-4 text-lg font-medium inline-flex items-center gap-3 group">
-            <span>Get the app</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          <button
+            onClick={() => document.querySelector('#route-planner')?.scrollIntoView({ behavior: 'smooth' })}
+            className="breathe-button px-8 py-3 text-base font-semibold inline-flex items-center gap-2 group"
+          >
+            <span>Start planning</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
           </button>
           
           <p className="text-breathe-text-secondary text-sm mt-4">

@@ -33,7 +33,8 @@ export const fetchRoutesData = async (postData) => {
           errorMessage += `. Details: ${errorData}`;
         }
       } catch (e) {
-        // ignore
+        console.error("Error parsing API error body:", e);
+        
       }
       throw new Error(errorMessage);
     }

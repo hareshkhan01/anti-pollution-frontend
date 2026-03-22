@@ -18,7 +18,7 @@ export default function FloatingParticles() {
     }
 
     resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
+    window?.addEventListener('resize', resizeCanvas)
 
     // Initialize particles
     const particleCount = Math.min(25, Math.floor(window.innerWidth / 60))
@@ -50,9 +50,9 @@ export default function FloatingParticles() {
           particle.x, particle.y, 0,
           particle.x, particle.y, particle.size * 2
         )
-        gradient.addColorStop(0, `rgba(45, 180, 215, ${particle.opacity})`)
-        gradient.addColorStop(0.5, `rgba(45, 180, 215, ${particle.opacity * 0.5})`)
-        gradient.addColorStop(1, 'rgba(45, 180, 215, 0)')
+        gradient.addColorStop(0, `rgba(240, 136, 62, ${particle.opacity})`)
+        gradient.addColorStop(0.5, `rgba(240, 136, 62, ${particle.opacity * 0.5})`)
+        gradient.addColorStop(1, 'rgba(240, 136, 62, 0)')
 
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2)
@@ -62,7 +62,7 @@ export default function FloatingParticles() {
         // Draw core
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size * 0.5, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(45, 180, 215, ${particle.opacity * 1.5})`
+        ctx.fillStyle = `rgba(240, 136, 62, ${particle.opacity * 1.5})`
         ctx.fill()
       })
 
@@ -82,7 +82,7 @@ export default function FloatingParticles() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[1]"
+      className="fixed inset-0 pointer-events-none z-1"
       style={{ opacity: 0.8 }}
     />
   )

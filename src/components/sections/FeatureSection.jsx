@@ -141,19 +141,19 @@ export default function FeatureSection({
   const cardContent = (
     <div
       ref={cardRef}
-      className="breathe-card p-8 lg:p-12 flex flex-col justify-center"
+      className="breathe-card p-8 lg:p-10 flex flex-col justify-center"
       style={{ 
-        width: 'clamp(320px, 58vw, 920px)',
-        height: 'clamp(400px, 72vh, 600px)'
+        width: 'clamp(320px, 58vw, 860px)',
+        height: 'clamp(380px, 68vh, 560px)'
       }}
     >
-      {/* Accent dot */}
-      <div className="w-2 h-2 rounded-full bg-breathe-accent mb-4" />
+      {/* Accent line */}
+      <div className="w-8 h-0.5 mb-5 rounded-full" style={{ background: 'var(--breathe-accent)' }} />
       
       <h2
         ref={titleRef}
         className="font-heading font-bold text-breathe-text-primary mb-4"
-        style={{ fontSize: 'clamp(24px, 3vw, 40px)', lineHeight: 1.15 }}
+        style={{ fontSize: 'clamp(22px, 2.6vw, 36px)', lineHeight: 1.2 }}
       >
         {title}
       </h2>
@@ -161,18 +161,18 @@ export default function FeatureSection({
       <p
         ref={bodyRef}
         className="text-breathe-text-secondary mb-8"
-        style={{ fontSize: 'clamp(15px, 1.3vw, 18px)', lineHeight: 1.6 }}
+        style={{ fontSize: 'clamp(14px, 1.2vw, 17px)', lineHeight: 1.65 }}
       >
         {description}
       </p>
       
-      <ul ref={bulletsRef} className="space-y-4">
+      <ul ref={bulletsRef} className="space-y-3">
         {bullets.map((bullet, index) => (
           <li key={index} className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-full bg-breathe-accent/10 flex items-center justify-center flex-shrink-0">
-              <Check className="w-4 h-4 text-breathe-accent" />
+            <div className="w-5 h-5 rounded flex items-center justify-center shrink-0" style={{ background: 'rgba(240,136,62,0.15)', border: '1px solid rgba(240,136,62,0.3)' }}>
+              <Check className="w-3 h-3" style={{ color: 'var(--breathe-accent)' }} />
             </div>
-            <span className="text-breathe-text-primary font-medium" style={{ fontSize: 'clamp(14px, 1.1vw, 16px)' }}>
+            <span className="text-breathe-text-primary" style={{ fontSize: 'clamp(13px, 1vw, 15px)' }}>
               {bullet}
             </span>
           </li>
@@ -184,16 +184,19 @@ export default function FeatureSection({
   const imageContent = (
     <div
       ref={imageRef}
-      className="rounded-4xl overflow-hidden shadow-card"
+      className="overflow-hidden"
       style={{ 
-        width: 'clamp(280px, 34vw, 520px)',
-        height: 'clamp(400px, 72vh, 600px)'
+        width: 'clamp(260px, 32vw, 480px)',
+        height: 'clamp(380px, 68vh, 560px)',
+        borderRadius: 8,
+        border: '1px solid var(--breathe-border)',
+        background: 'var(--breathe-bg-card)'
       }}
     >
       <img
         src={image}
         alt={title}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover opacity-70"
       />
     </div>
   )

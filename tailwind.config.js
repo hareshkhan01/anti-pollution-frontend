@@ -42,10 +42,15 @@ export default {
           bg: {
             primary: 'var(--breathe-bg-primary)',
             secondary: 'var(--breathe-bg-secondary)',
+            card: 'var(--breathe-bg-card)',
           },
           accent: 'var(--breathe-accent)',
           'accent-light': 'var(--breathe-accent-light)',
           'accent-lighter': 'var(--breathe-accent-lighter)',
+          'accent-blue': 'var(--breathe-accent-blue)',
+          'accent-green': 'var(--breathe-accent-green)',
+          'accent-purple': 'var(--breathe-accent-purple)',
+          'accent-red': 'var(--breathe-accent-red)',
           text: {
             primary: 'var(--breathe-text-primary)',
             secondary: 'var(--breathe-text-secondary)',

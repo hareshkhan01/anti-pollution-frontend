@@ -9,7 +9,7 @@ import HeroSection from './components/sections/HeroSection'
 import RoutePlannerSection from './components/sections/RoutePlannerSection'
 import FeatureSection from './components/sections/FeatureSection'
 import FeaturesGridSection from './components/sections/FeaturesGridSection'
-import FooterSection from './components/sections/FooterSection'
+import FooterSection from './components/Footer/FooterSection.jsx'
 import FloatingParticles from "./components/FloatingParticles.jsx"
 
 // Map page imports
@@ -25,21 +25,12 @@ import './App.css'
 gsap.registerPlugin(ScrollTrigger)
 
 function HomePage() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
   const mainRef = useRef(null)
 
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    setIsDarkMode(prefersDark)
+    // Always dark
+    document.documentElement.classList.add('dark')
   }, [])
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [isDarkMode])
 
   useEffect(() => {
     const setupGlobalSnap = () => {
@@ -87,10 +78,7 @@ function HomePage() {
     <div ref={mainRef} className="relative min-h-screen">
       <div className="grain-overlay" />
       <FloatingParticles />
-      <Navigation
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-      />
+      <Navigation />
       <main className="relative">
         <HeroSection />
         <RoutePlannerSection />
@@ -103,7 +91,7 @@ function HomePage() {
             "Green corridors & parks",
             "Shorter exposure time"
           ]}
-          image="https://placehold.co/600x40"
+          image="https://placehold.co/600x400"
           imagePosition="right"
           zIndex={30}
         />

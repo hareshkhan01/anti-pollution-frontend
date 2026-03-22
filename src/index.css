@@ -2,64 +2,77 @@
 
 @layer base {
   :root {
-    --background: 200 50% 98%;
-    --foreground: 200 50% 15%;
-    --card: 0 0% 100%;
-    --card-foreground: 200 50% 15%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 200 50% 15%;
-    --primary: 190 70% 51%;
+    --background: 220 16% 10%;
+    --foreground: 220 20% 92%;
+    --card: 220 16% 13%;
+    --card-foreground: 220 20% 92%;
+    --popover: 220 16% 13%;
+    --popover-foreground: 220 20% 92%;
+    --primary: 32 95% 55%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 190 40% 95%;
-    --secondary-foreground: 200 50% 15%;
-    --muted: 190 30% 94%;
-    --muted-foreground: 200 20% 45%;
-    --accent: 190 70% 51%;
+    --secondary: 220 16% 18%;
+    --secondary-foreground: 220 20% 92%;
+    --muted: 220 16% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 32 95% 55%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 190 30% 88%;
-    --input: 190 30% 88%;
-    --ring: 190 70% 51%;
-    --radius: 0.625rem;
-    
-    /* Custom breathing app colors */
-    --breathe-bg-primary: #F6FAFD;
-    --breathe-bg-secondary: #EAF6FA;
-    --breathe-accent: #2DB4D7;
-    --breathe-accent-light: #7EE3FA;
-    --breathe-accent-lighter: #A8EAF7;
-    --breathe-text-primary: #0E2A3C;
-    --breathe-text-secondary: #5A6F7D;
-    --breathe-border: #D8ECF3;
+    --border: 220 16% 20%;
+    --input: 220 16% 20%;
+    --ring: 32 95% 55%;
+    --radius: 0.5rem;
+
+    /* Dashboard dark theme */
+    --breathe-bg-primary: #0d1117;
+    --breathe-bg-secondary: #161b22;
+    --breathe-bg-card: #1c2333;
+    --breathe-accent: #f0883e;
+    --breathe-accent-light: #ffa657;
+    --breathe-accent-lighter: #ffd8a8;
+    --breathe-accent-blue: #58a6ff;
+    --breathe-accent-green: #3fb950;
+    --breathe-accent-purple: #bc8cff;
+    --breathe-accent-red: #f85149;
+    --breathe-text-primary: #e6edf3;
+    --breathe-text-secondary: #8b949e;
+    --breathe-border: #30363d;
   }
 
   .dark {
-    --background: 200 30% 8%;
-    --foreground: 200 30% 95%;
-    --card: 200 25% 12%;
-    --card-foreground: 200 30% 95%;
-    --popover: 200 25% 12%;
-    --popover-foreground: 200 30% 95%;
-    --primary: 190 70% 51%;
+    --background: 220 16% 10%;
+    --foreground: 220 20% 92%;
+    --card: 220 16% 13%;
+    --card-foreground: 220 20% 92%;
+    --popover: 220 16% 13%;
+    --popover-foreground: 220 20% 92%;
+    --primary: 32 95% 55%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 200 25% 18%;
-    --secondary-foreground: 200 30% 95%;
-    --muted: 200 25% 18%;
-    --muted-foreground: 200 20% 65%;
-    --accent: 190 70% 51%;
+    --secondary: 220 16% 18%;
+    --secondary-foreground: 220 20% 92%;
+    --muted: 220 16% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 32 95% 55%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 200 25% 22%;
-    --input: 200 25% 22%;
-    --ring: 190 70% 51%;
-    
-    --breathe-bg-primary: #0A1620;
-    --breathe-bg-secondary: #0F1F2A;
-    --breathe-text-primary: #E8F4F8;
-    --breathe-text-secondary: #8BA3B0;
-    --breathe-border: #1A3A4A;
+    --border: 220 16% 20%;
+    --input: 220 16% 20%;
+    --ring: 32 95% 55%;
+
+    --breathe-bg-primary: #0d1117;
+    --breathe-bg-secondary: #161b22;
+    --breathe-bg-card: #1c2333;
+    --breathe-accent: #f0883e;
+    --breathe-accent-light: #ffa657;
+    --breathe-accent-lighter: #ffd8a8;
+    --breathe-accent-blue: #58a6ff;
+    --breathe-accent-green: #3fb950;
+    --breathe-accent-purple: #bc8cff;
+    --breathe-accent-red: #f85149;
+    --breathe-text-primary: #e6edf3;
+    --breathe-text-secondary: #8b949e;
+    --breathe-border: #30363d;
   }
 }
 
@@ -87,56 +100,102 @@
 
 @layer components {
   .breathe-gradient {
-    background: linear-gradient(180deg, var(--breathe-accent) 0%, var(--breathe-accent-light) 100%);
+    background: linear-gradient(135deg, var(--breathe-accent) 0%, var(--breathe-accent-light) 100%);
   }
   
   .breathe-card {
-    background: white;
-    border-radius: 28px;
-    box-shadow: 0 18px 45px rgba(14, 42, 60, 0.10);
-  }
-  
-  .dark .breathe-card {
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    background: var(--breathe-bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--breathe-border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   }
   
   .breathe-input {
-    background: white;
-    border: 2px solid var(--breathe-border);
-    border-radius: 999px;
-    box-shadow: 0 10px 30px rgba(14, 42, 60, 0.08);
-    transition: all 0.3s ease;
-  }
-  
-  .dark .breathe-input {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--breathe-border);
+    background: var(--breathe-bg-secondary);
+    border: 1px solid var(--breathe-border);
+    border-radius: 6px;
+    color: var(--breathe-text-primary);
+    transition: all 0.2s ease;
   }
   
   .breathe-input:focus {
     outline: none;
     border-color: var(--breathe-accent);
-    box-shadow: 0 0 0 3px rgba(45, 180, 215, 0.25), 0 10px 30px rgba(14, 42, 60, 0.08);
+    box-shadow: 0 0 0 3px rgba(240, 136, 62, 0.15);
   }
   
   .breathe-button {
     background: var(--breathe-accent);
-    color: white;
-    border-radius: 999px;
-    box-shadow: 0 14px 35px rgba(45, 180, 215, 0.28);
-    transition: all 0.3s ease;
+    color: #0d1117;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 0 20px rgba(240, 136, 62, 0.25);
+    transition: all 0.2s ease;
   }
   
   .breathe-button:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 18px 45px rgba(45, 180, 215, 0.35);
+    background: var(--breathe-accent-light);
+    box-shadow: 0 0 28px rgba(240, 136, 62, 0.4);
+    transform: translateY(-1px);
   }
   
   .breathe-button:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0);
   }
-  
+
+  .dash-stat-card {
+    background: var(--breathe-bg-card);
+    border: 1px solid var(--breathe-border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    transition: border-color 0.2s ease;
+  }
+
+  .dash-stat-card:hover {
+    border-color: var(--breathe-accent);
+  }
+
+  .dash-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .dash-badge-green {
+    background: rgba(63, 185, 80, 0.15);
+    color: var(--breathe-accent-green);
+    border: 1px solid rgba(63, 185, 80, 0.3);
+  }
+
+  .dash-badge-orange {
+    background: rgba(240, 136, 62, 0.15);
+    color: var(--breathe-accent);
+    border: 1px solid rgba(240, 136, 62, 0.3);
+  }
+
+  .dash-badge-red {
+    background: rgba(248, 81, 73, 0.15);
+    color: var(--breathe-accent-red);
+    border: 1px solid rgba(248, 81, 73, 0.3);
+  }
+
+  .dash-badge-blue {
+    background: rgba(88, 166, 255, 0.15);
+    color: var(--breathe-accent-blue);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+  }
+
+  .dash-badge-purple {
+    background: rgba(188, 140, 255, 0.15);
+    color: var(--breathe-accent-purple);
+    border: 1px solid rgba(188, 140, 255, 0.3);
+  }
+
   .blob {
     border-radius: 999px;
     pointer-events: none;
