@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -18,6 +18,7 @@ import Header from './components/Header/Header';
 import MapView from './components/MapView/MapView';
 import { fetchRoutesData } from './api/routeApi';
 import mockPostData from './data/mockPostData.json';
+import { fetchLatLongByAddr } from './api/getLatLong';
 
 import './App.css'
 
@@ -129,6 +130,7 @@ function HomePage() {
 
 function MapPage() {
   const { latitude, longitude, loading: locationLoading, error: locationError } = useGeolocation();
+  const location = useLocation();
 
   const [routes, setRoutes] = useState([]);
   const [routesLoading, setRoutesLoading] = useState(true);
@@ -138,11 +140,23 @@ function MapPage() {
     const loadRoutes = async () => {
       try {
         setRoutesLoading(true);
-        // Using mockPostData for the POST request payload as requested
-        const data = await fetchRoutesData(mockPostData);
+        let postPayload = mockPostData;
+
+        // If navigated from home page with state
+        if (location.state && location.state.originLat) {
+          postPayload = {
+            originLat: location.state.originLat,
+            originLng: location.state.originLng,
+            destLat: location.state.destLat,
+            destLng: location.state.destLng
+          };
+        }
+
+        // Using dynamically constructed payload based on form input or mock data
+        const data = await fetchRoutesData(postPayload);
         // Assuming API might return the array directly or inside a `routes` property or `data` property
         const actualRoutes = Array.isArray(data) ? data : (data?.routes || data?.data || []);
-        console.log(actualRoutes);
+        console.log("Fetched routes:", actualRoutes);
         setRoutes(actualRoutes);
       } catch (err) {
         setRoutesError(err.message);
@@ -152,7 +166,7 @@ function MapPage() {
     };
 
     loadRoutes();
-  }, []);
+  }, [location.state]);
 
   if (locationError) {
     return (
@@ -187,12 +201,47 @@ function MapPage() {
   );
 }
 
+function TestPage() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    console.log("jadajsdjasdjasjd");
+    const fetchData = async () => {
+      try {
+        const res = await fetchLatLongByAddr("Kolkata, West Bengal");
+        console.log(res.geocodingResults[0]);
+        setData(res.geocodingResults[0]);
+      } catch (err) {
+        console.error(err.message);
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div style={{ padding: '2rem', background: '#333', color: 'white', minHeight: '100vh' }}>
+      <h1>Test Route API Output</h1>
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {!data && !error ? <p>Loading data...</p> : null}
+      {data && (
+        <pre style={{ background: '#111', padding: '1rem', borderRadius: '8px', overflow: 'auto' }}>
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      )}
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/map" element={<MapPage />} />
+        <Route path="/test" element={<TestPage />} />
       </Routes>
     </Router>
   )
