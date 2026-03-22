@@ -1,6 +1,6 @@
 // API setup for fetching routes
 
-const BASE_URL = 'http://localhost:3300';
+const BASE_URL = 'http://10.33.229.167:3000';
 
 /**
  * Fetches actual routes from the localhost API 
@@ -11,7 +11,8 @@ export const fetchRoutesData = async (postData) => {
   try {
     // Note: Update the exact endpoint string if your API expects something other than /api/routes
     // Example: /route or /api/v1/routes
-    const response = await fetch(`${BASE_URL}/api/score`, {
+    console.log("Sending routes payload to API:", postData);
+    const response = await (fetch)(`${BASE_URL}/api/score`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +22,21 @@ export const fetchRoutesData = async (postData) => {
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.status} ${response.statusText}`);
+      let errorMessage = `API error: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.text();
+        console.error("API Error Body:", errorData);
+        const parsed = JSON.parse(errorData);
+        if (parsed.error) {
+          errorMessage = parsed.error;
+        } else {
+          errorMessage += `. Details: ${errorData}`;
+        }
+      } catch (e) {
+        console.error("Error parsing API error body:", e);
+        
+      }
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
