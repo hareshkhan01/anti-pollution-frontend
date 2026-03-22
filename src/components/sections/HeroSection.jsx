@@ -94,7 +94,7 @@ export default function HeroSection() {
       {/* Outer glow ring */}
       <div
         ref={breathingCircleRef}
-        className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full pointer-events-none"
+        className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-275 max-h-255 rounded-full pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(240,136,62,0.07) 0%, transparent 65%)',
           opacity: 0.3
@@ -104,7 +104,7 @@ export default function HeroSection() {
       {/* Main hero blob — orange accent glow */}
       <div
         ref={blobRef}
-        className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 w-[54vw] h-[54vw] max-w-[780px] max-h-[780px] blob"
+        className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 w-[54vw] h-[54vw] max-w-195 max-h-195 blob"
         style={{
           background: 'radial-gradient(circle at 40% 40%, rgba(240,136,62,0.22) 0%, rgba(88,166,255,0.10) 50%, transparent 75%)',
           opacity: 0.9
@@ -126,7 +126,7 @@ export default function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-[1100px] mx-auto">
+      <div className="relative z-10 text-center px-6 max-w-275 mx-auto">
         <h1
           ref={headlineRef}
           className="font-heading font-bold text-breathe-text-primary mb-6"
@@ -141,7 +141,7 @@ export default function HeroSection() {
 
         <p
           ref={subheadlineRef}
-          className="text-breathe-text-secondary max-w-[720px] mx-auto"
+          className="text-breathe-text-secondary max-w-180 mx-auto"
           style={{
             fontSize: 'clamp(16px, 1.5vw, 20px)',
             lineHeight: 1.65

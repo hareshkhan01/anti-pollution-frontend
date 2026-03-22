@@ -100,7 +100,7 @@ export default function FooterSection() {
       className="relative w-full py-14 lg:py-18 z-70"
       style={{ backgroundColor: 'var(--breathe-bg-secondary)', borderTop: '1px solid var(--breathe-border)' }}
     >
-      <div className="max-w-[1100px] mx-auto px-6">
+      <div className="max-w-[1100] mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-12">
           {/* Left column - Logo and tagline */}
           <div ref={leftColRef}>

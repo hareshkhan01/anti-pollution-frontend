@@ -108,7 +108,7 @@ export default function FeaturesGridSection() {
       className="relative w-full py-20 lg:py-28 overflow-hidden z-60"
       style={{ backgroundColor: 'var(--breathe-bg-secondary)', borderTop: '1px solid var(--breathe-border)' }}
     >
-      <div className="max-w-[1100px] mx-auto px-6">
+      <div className="max-w-275 mx-auto px-6">
         {/* Section title */}
         <div className="text-center mb-12 lg:mb-16">
           <span className="dash-badge dash-badge-orange mb-4 inline-flex">Built for sensitive lungs</span>
