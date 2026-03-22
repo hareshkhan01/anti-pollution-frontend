@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Flag, ArrowRight, Wind, TrendingUp, VolumeX } from 'lucide-react'
+import { fetchLatLongByAddr } from '../../api/getLatLong'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -12,6 +14,7 @@ const FEATURE_PILLS = [
 ]
 
 export default function RoutePlannerSection() {
+  const navigate = useNavigate()
   const sectionRef  = useRef(null)
   const cardRef     = useRef(null)
   const titleRef    = useRef(null)
@@ -77,13 +80,37 @@ export default function RoutePlannerSection() {
     return () => ctx.revert()
   }, [])
 
-  const handleFindRoute = () => {
+  const handleFindRoute = async () => {
     if (!startingPoint || !destination) return
     setIsSearching(true)
-    setTimeout(() => {
+    
+    try {
+      const sourceRes = await fetchLatLongByAddr(startingPoint)
+      const destRes = await fetchLatLongByAddr(destination)
+
+      const originLoc = sourceRes?.geocodingResults?.[0]?.geometry?.location
+      const destLoc = destRes?.geocodingResults?.[0]?.geometry?.location
+
+      if (!originLoc || !destLoc) {
+        alert("Could not find coordinates for one or both locations. Please try more specific addresses.")
+        setIsSearching(false)
+        return
+      }
+
+      navigate('/map', {
+        state: {
+          originLat: originLoc.lat,
+          originLng: originLoc.lng,
+          destLat: destLoc.lat,
+          destLng: destLoc.lng
+        }
+      })
+    } catch (err) {
+      console.error(err)
+      alert("Error fetching location data. Please try again.")
+    } finally {
       setIsSearching(false)
-      alert(`Finding the safest route from "${startingPoint}" to "${destination}"...\n\nThis would connect to air quality data and routing APIs in the full app!`)
-    }, 1500)
+    }
   }
 
   return (
