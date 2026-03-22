@@ -33,6 +33,25 @@ export default function MapView({ latitude, longitude, routes }) {
       myMap.on('load', () => {
         if (!routes || routes.length === 0) return;
         console.log("Maps: ", routes)
+        // Calculate bounds to view all routes
+        if (routes.length > 0 && routes[0].polyline && routes[0].polyline.length > 0) {
+          let minLng = routes[0].polyline[0][0];
+          let maxLng = routes[0].polyline[0][0];
+          let minLat = routes[0].polyline[0][1];
+          let maxLat = routes[0].polyline[0][1];
+          
+          routes.forEach(route => {
+            route.polyline.forEach(coord => {
+              if (coord[0] < minLng) minLng = coord[0];
+              if (coord[0] > maxLng) maxLng = coord[0];
+              if (coord[1] < minLat) minLat = coord[1];
+              if (coord[1] > maxLat) maxLat = coord[1];
+            });
+          });
+          
+          myMap.fitBounds([[minLng, minLat], [maxLng, maxLat]], { padding: 40 });
+        }
+
         // Draw all routes
         routes.forEach((route, index) => {
           myMap.addSource(route.routeId, {

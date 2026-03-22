@@ -154,13 +154,12 @@ function MapPage() {
         setRoutesLoading(true);
         let postPayload = mockPostData;
 
-        // If navigated from home page with state
         if (location.state && location.state.originLat) {
           postPayload = {
-            originLat: location.state.originLat,
-            originLng: location.state.originLng,
-            destLat: location.state.destLat,
-            destLng: location.state.destLng
+            originLat: Number(location.state.originLat),
+            originLng: Number(location.state.originLng),
+            destLat: Number(location.state.destLat),
+            destLng: Number(location.state.destLng)
           };
         }
 
@@ -198,9 +197,12 @@ function MapPage() {
 
   if (routesError) {
     return (
-      <div className="app-status">
-        <p>⚠️ API Error: {routesError}</p>
-        <p>Make sure the API is running on localhost:3300</p>
+      <div className="app-status" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', gap: '1rem', background: 'var(--breathe-bg-primary)', color: 'var(--breathe-text-primary)' }}>
+        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ff4d4d' }}>⚠️ Route Planning Error</p>
+        <p style={{ fontSize: '1.1rem', maxWidth: '80%', textAlign: 'center' }}>{routesError}</p>
+        <a href="/" className="breathe-button" style={{ padding: '0.75rem 1.5rem', textDecoration: 'none', marginTop: '1rem', display: 'inline-block' }}>
+          Try Another Location
+        </a>
       </div>
     );
   }
@@ -222,8 +224,8 @@ function TestPage() {
     const fetchData = async () => {
       try {
         const res = await fetchLatLongByAddr("Kolkata, West Bengal");
-        console.log(res.geocodingResults[0]);
-        setData(res.geocodingResults[0]);
+        console.log(res.geocodingResults);
+        setData(res.geocodingResults);
       } catch (err) {
         console.error(err.message);
         setError(err.message);
