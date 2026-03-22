@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Flag, ArrowRight, Crosshair } from 'lucide-react'
 import { fetchLatLongByAddr } from '../../api/getLatLong'
+import { useGeolocation } from '../../hooks/useGeolocation'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,6 +23,10 @@ export default function RoutePlannerSection() {
   const [startingPoint, setStartingPoint] = useState('')
   const [destination, setDestination] = useState('')
   const [isSearching, setIsSearching] = useState(false)
+  const [useCurrentLocation, setUseCurrentLocation] = useState(false)
+  const [currentCoords, setCurrentCoords] = useState(null)
+
+  const { latitude, longitude, loading: locationLoading, error: locationError } = useGeolocation()
 
   useEffect(() => {
     const section = sectionRef.current
@@ -74,24 +79,41 @@ export default function RoutePlannerSection() {
     return () => ctx.revert()
   }, [])
 
+  const handleCurrentLocation = () => {
+    if (locationLoading) {
+      alert("Still calculating your location... Please wait a moment.")
+      return
+    }
+    if (locationError) {
+      alert("Could not get location: " + locationError)
+      return
+    }
+    if (latitude && longitude) {
+      setCurrentCoords({
+        lat: latitude,
+        lng: longitude
+      })
+      setStartingPoint("Current Location")
+      setUseCurrentLocation(true)
+    } else {
+      alert("Could not retrieve exact location coordinates.")
+    }
+  }
+
   const handleFindRoute = async () => {
     if (!startingPoint || !destination) return
 
     setIsSearching(true)
 
     try {
-      // Assuming useCurrentLocation and currentCoords are defined elsewhere if needed
-      // For this change, we'll just implement the new logic for originLoc based on the provided diff
       let originLoc;
-      // The diff implies a conditional check for 'Current Location' and 'currentCoords'
-      // For now, we'll directly use fetchLatLongByAddr as the full context isn't available
-      // If `useCurrentLocation` and `currentCoords` were defined, it would look like this:
-      // if (useCurrentLocation && currentCoords && startingPoint === "Current Location") {
-      //   originLoc = currentCoords;
-      // } else {
+      
+      if (useCurrentLocation && currentCoords && startingPoint === "Current Location") {
+        originLoc = currentCoords;
+      } else {
         const sourceRes = await fetchLatLongByAddr(startingPoint)
         originLoc = sourceRes?.geocodingResults?.[0]?.geometry?.location
-      // }
+      }
       
       const destRes = await fetchLatLongByAddr(destination)
       const destLoc = destRes?.geocodingResults?.[0]?.geometry?.location
@@ -150,17 +172,30 @@ export default function RoutePlannerSection() {
         {/* Input fields */}
         <div className="space-y-4 mb-6">
           {/* Starting point input */}
-          <div ref={inputARef} className="relative">
-            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-breathe-accent">
-              <MapPin className="w-5 h-5" />
+          <div ref={inputARef} className="relative flex items-center gap-2">
+            <div className="relative flex-1">
+              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-breathe-accent">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <input
+                type="text"
+                placeholder="Starting point"
+                value={startingPoint}
+                onChange={(e) => {
+                  setStartingPoint(e.target.value)
+                  if (e.target.value !== "Current Location") setUseCurrentLocation(false)
+                }}
+                className="w-full h-14 pl-14 pr-12 breathe-input text-breathe-text-primary placeholder:text-breathe-text-secondary/60"
+              />
+              <button 
+                onClick={handleCurrentLocation}
+                title="Use Current Location"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-breathe-accent hover:text-breathe-text-primary transition-colors"
+                type="button"
+              >
+                <Crosshair className="w-5 h-5" />
+              </button>
             </div>
-            <input
-              type="text"
-              placeholder="Starting point"
-              value={startingPoint}
-              onChange={(e) => setStartingPoint(e.target.value)}
-              className="w-full h-14 pl-14 pr-5 breathe-input text-breathe-text-primary placeholder:text-breathe-text-secondary/60"
-            />
           </div>
 
           {/* Destination input */}
