@@ -253,18 +253,19 @@ function TestPage() {
     </>
   );
 
-function App() {
-  return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/test" element={<TestPage />} />
-        </Routes>
-      </Router>
-    </>
-  );
+  function App() {
+    return (
+      <>
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/test" element={<TestPage />} />
+          </Routes>
+        </Router>
+      </>
+    );
+  }
 }
 
 export default App;
